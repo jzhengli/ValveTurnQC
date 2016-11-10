@@ -5,7 +5,7 @@ import arcpy
 RPUDWorkspace = "Database Connections/RPUD_TESTDB.sde"
 
 #############################################################
-fileDBWorkspace = '' ### change this output path before running the script                                
+fileDBWorkspace = 'C:/data/Junk.gdb' ### change this output path before running the script                                
 valveToQC = 'RPUD.Water_Distribution_Features/fs_MissingValve' ### comment out this line and use System Valve below if needed  
 # valveToQC = 'RPUD.WaterDistributionNetwork/wSystemValve'
 #############################################################
@@ -23,8 +23,12 @@ try:
 	arcpy.env.workspace = fileDBWorkspace
 	outFCName = "ValveTurnsQC"
 	outFC = fileDBWorkspace + "/" + outFCName
-	if arcpy.Exists(outFCName):
-		arcpy.Delete_management(outFCName)
+	try:
+		if arcpy.Exists(outFCName):
+			arcpy.Delete_management(outFCName)
+	except Exception:
+		print ("Cannot get a lock, try close all ArcGIS windows")
+		exit()
 	arcpy.CreateFeatureclass_management(fileDBWorkspace, outFCName, "POINT", inFC, "DISABLED", "DISABLED", arcpy.Describe(inFC).spatialReference)
 	# print arcpy.Describe(fileDBWorkspace + "/" + outFCName)
 
@@ -41,6 +45,7 @@ try:
 				elif not ((row[turnsIdx] - sigma) <= (row[diameterIdx] * 3) <= (row[turnsIdx] + sigma)): # Turns-to-close normally equals diameter * 3
 					print (u'Diameter {0}, Turns {1}'.format(row[diameterIdx], row[turnsIdx]))
 					iCursor.insertRow(row)
+	print ("Result has been saved to: " + outFC)
 except Exception:
 	print ("Please check your input/output path!")
 
