@@ -1,8 +1,8 @@
 ## Script for QCing FacilityID of all major features, result being logged in a log file in same directory
 import arcpy, logging, os, sys, time
 
-arcpy.env.overwriteOutput = True
-arcpy.env.workspace = "Database Connections/RPUD_TESTDB.sde"
+arcpy.env.overwriteOutput = True 
+arcpy.env.workspace = "Database Connections/RPUD_TRANSDB.sde"
 
 logging.basicConfig(filename=os.path.join(os.path.dirname(sys.argv[0]), 'facilityID_qc.log'), level=logging.INFO, format='%(asctime)s %(message)s')
 def logMessage(msg):
@@ -83,7 +83,7 @@ def checkReuse():
 	diagnoseField(dataset, "RPUD.rServiceConnection", "RSC")
 	diagnoseField(dataset, "RPUD.rSystemValve", "RSV")
 
-def main()
+def main():
 	logMessage("Start")
 	checkWater()
 	checkSewer()

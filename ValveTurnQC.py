@@ -2,7 +2,7 @@
 ## 
 import arcpy
 
-RPUDWorkspace = "Database Connections/RPUD_TESTDB.sde"
+RPUDWorkspace = "Database Connections/RPUD_TRANSDB.sde"
 
 #############################################################
 fileDBWorkspace = 'C:/data/Junk.gdb' ### change this output path before running the script                                
